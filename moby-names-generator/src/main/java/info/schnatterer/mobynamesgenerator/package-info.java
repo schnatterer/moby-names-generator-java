@@ -1,0 +1,2 @@
+@NamesGenerator
+package info.schnatterer.mobynamesgenerator;
