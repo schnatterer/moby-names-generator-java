@@ -4,9 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>info.schnatterer.moby-names-generator</groupId>
+    <parent>
+        <groupId>info.schnatterer.moby-names-generator</groupId>
+        <artifactId>moby-names-generator-parent</artifactId>
+        <version>${nameGeneratorVersion}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    
     <artifactId>moby-names-generator-processor</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
 
     <build>
         <plugins>

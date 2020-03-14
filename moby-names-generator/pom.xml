@@ -4,9 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>info.schnatterer.moby-names-generator</groupId>
+    <parent>
+        <groupId>info.schnatterer.moby-names-generator</groupId>
+        <artifactId>moby-names-generator-parent</artifactId>
+        <version>${nameGeneratorVersion}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    
     <artifactId>moby-names-generator</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
 
     <build>
         <plugins>
@@ -18,7 +23,7 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <compilerArgs>
-                        <arg>-AmobyVersion=v19.03.6</arg>
+                        <arg>-AmobyVersion=v${mobyVersion}</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
@@ -33,7 +38,7 @@
         <dependency>
             <groupId>info.schnatterer.moby-names-generator</groupId>
             <artifactId>moby-names-generator-processor</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${version}</version>
             <scope>provided</scope>
         </dependency>
 

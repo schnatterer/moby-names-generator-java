@@ -4,9 +4,14 @@
 
     <groupId>info.schnatterer.moby-names-generator</groupId>
     <artifactId>moby-names-generator-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${nameGeneratorVersion}</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <mobyVersion>19.03.6</mobyVersion>
+        <nameGeneratorVersion>${mobyVersion}-r0-SNAPSHOT</nameGeneratorVersion>
+    </properties>
+    
     <name>moby-names-generator-parent</name>
     <url>https://github.com/schnatterer/moby-names-generator-java</url>
     <description>Java Version of the famous Moby (Docker) Names Generator</description>
