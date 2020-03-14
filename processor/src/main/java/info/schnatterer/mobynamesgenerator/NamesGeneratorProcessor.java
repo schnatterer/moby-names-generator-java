@@ -19,7 +19,12 @@ import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
@@ -90,9 +95,10 @@ public class NamesGeneratorProcessor extends AbstractProcessor {
     private void writeClass(String mobyVersion, Element element) throws IOException {
         Filer filer = processingEnv.getFiler();
         String packageName = findPackageName(element);
-        // TODO download and parse https://raw.githubusercontent.com/moby/moby/v19.03.6/pkg/namesgenerator/names-generator.go
-        String left = "\"admiring\"";
-        String right = "\"zhukovsky\"";
+
+        String namesGeneratorSrcFile = downloadNamesGeneratorSourceFile(mobyVersion);
+        String left = parseGoArray("left", namesGeneratorSrcFile); //"\"admiring\"";
+        String right = parseGoArray("right", namesGeneratorSrcFile); //"\"zhukovsky\"";
 
         NameGeneratorModel model = new NameGeneratorModel(packageName, left, right);
 
@@ -102,6 +108,33 @@ public class NamesGeneratorProcessor extends AbstractProcessor {
         try (Writer writer = jfo.openWriter()) {
             mustache.execute(writer, model).flush();
         }
+    }
+
+    String parseGoArray(String arrayName, String namesGeneratorSrcFile) {
+        Pattern pattern = Pattern.compile("(?s)" + arrayName + " = \\[...\\]string\\{(.*?)\\}");
+        Matcher matcher = pattern.matcher(namesGeneratorSrcFile);
+        if (matcher.find()) {
+            String group = matcher.group(1).trim();
+            if (matcher.find()) {
+                throw new RuntimeException("Found multiple go arrays \"" + arrayName + "\" in source file.");
+            }
+            return group;
+        } else {
+           throw new RuntimeException("Failed to find go array \"" + arrayName + "\" in source file.");
+        }
+    }
+
+    private String downloadNamesGeneratorSourceFile(String mobyVersion) throws IOException {
+        URL url = new URL("https://raw.githubusercontent.com/moby/moby/" + mobyVersion + "/pkg/namesgenerator/names-generator.go");
+        try (Scanner scanner = createScanner(url))
+        {
+            scanner.useDelimiter("\\A");
+            return scanner.hasNext() ? scanner.next() : "";
+        }
+    }
+
+    protected Scanner createScanner(URL url) throws IOException {
+        return new Scanner(url.openStream(), StandardCharsets.UTF_8.toString());
     }
 
     private String findPackageName(Element element) {
