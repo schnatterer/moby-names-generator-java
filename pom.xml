@@ -103,7 +103,6 @@
         </pluginManagement>
     </build>
 
-
     <modules>
         <module>processor</module>
         <module>moby-names-generator</module>

@@ -21,7 +21,7 @@ public final class MobyNamesGenerator {
         Random random = new Random();
         String name = left[random.nextInt(left.length)] + "_" + right[random.nextInt(right.length)];
 
-        if (name == "boring_wozniak") { // Steve Wozniak is not boring
+        if (name.equals("boring_wozniak")) { // Steve Wozniak is not boring
             return getRandomName(retry);
         }
 
