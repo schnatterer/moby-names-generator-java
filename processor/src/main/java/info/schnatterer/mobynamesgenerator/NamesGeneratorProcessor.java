@@ -5,19 +5,14 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 import org.kohsuke.MetaInfServices;
 
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Filer;
-import javax.annotation.processing.Processor;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedOptions;
-import javax.annotation.processing.SupportedSourceVersion;
+import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -36,16 +31,18 @@ public class NamesGeneratorProcessor extends AbstractProcessor {
 
     private static final boolean CLAIM_ANNOTATIONS = true;
 
-    private static final String TEMPLATE = "info/schnatterer/mobynamesgenerator/NamesGenerator-template.java";
+    static final String JAVA_CLASS_TEMPLATE = "info/schnatterer/mobynamesgenerator/NamesGenerator-template.java";
+    static final String GO_SRC_FILE_URL_TEMPLATE = "https://raw.githubusercontent.com/moby/moby/%s/pkg/namesgenerator/names-generator.go";
+    private final Downloader downloader;
 
-    private MustacheFactory mustacheFactory;
+    private MustacheFactory mustacheFactory = new DefaultMustacheFactory();
 
     public NamesGeneratorProcessor() {
-        this( new DefaultMustacheFactory());
+        this(new DefaultDownloader());
     }
 
-    NamesGeneratorProcessor(MustacheFactory mustacheFactory) {
-        this.mustacheFactory = mustacheFactory;
+    NamesGeneratorProcessor(Downloader downloader) {
+        this.downloader = downloader;
     }
 
     @Override
@@ -97,50 +94,46 @@ public class NamesGeneratorProcessor extends AbstractProcessor {
         String packageName = findPackageName(element);
 
         String namesGeneratorSrcFile = downloadNamesGeneratorSourceFile(mobyVersion);
-        String left = parseGoArray("left", namesGeneratorSrcFile); //"\"admiring\"";
-        String right = parseGoArray("right", namesGeneratorSrcFile); //"\"zhukovsky\"";
+        String left = parseGoArray("left", namesGeneratorSrcFile); 
+        String right = parseGoArray("right", namesGeneratorSrcFile); 
 
         NameGeneratorModel model = new NameGeneratorModel(packageName, left, right);
 
         JavaFileObject jfo = filer.createSourceFile("MobyNamesGenerator");
-        Mustache mustache = mustacheFactory.compile(TEMPLATE);
+        Mustache mustache = mustacheFactory.compile(JAVA_CLASS_TEMPLATE);
 
         try (Writer writer = jfo.openWriter()) {
             mustache.execute(writer, model).flush();
         }
     }
 
-    String parseGoArray(String arrayName, String namesGeneratorSrcFile) {
+    String parseGoArray(String arrayName, String namesGeneratorSrcFile) throws IOException {
         Pattern pattern = Pattern.compile("(?s)" + arrayName + " = \\[...\\]string\\{(.*?)\\}");
         Matcher matcher = pattern.matcher(namesGeneratorSrcFile);
         if (matcher.find()) {
             String group = matcher.group(1).trim();
             if (matcher.find()) {
-                throw new RuntimeException("Found multiple go arrays \"" + arrayName + "\" in source file.");
+                throw new IOException("Found multiple go arrays \"" + arrayName + "\" in source file.");
             }
             return group;
         } else {
-           throw new RuntimeException("Failed to find go array \"" + arrayName + "\" in source file.");
+           throw new IOException("Failed to find go array \"" + arrayName + "\" in source file.");
         }
     }
 
     private String downloadNamesGeneratorSourceFile(String mobyVersion) throws IOException {
-        URL url = new URL("https://raw.githubusercontent.com/moby/moby/" + mobyVersion + "/pkg/namesgenerator/names-generator.go");
-        try (Scanner scanner = createScanner(url))
-        {
+        String url = String.format(GO_SRC_FILE_URL_TEMPLATE, mobyVersion);
+        try (Scanner scanner = createScanner(url)) {
             scanner.useDelimiter("\\A");
             return scanner.hasNext() ? scanner.next() : "";
         }
     }
 
-    protected Scanner createScanner(URL url) throws IOException {
-        return new Scanner(url.openStream(), StandardCharsets.UTF_8.toString());
+    protected Scanner createScanner(String url) throws IOException {
+        return new Scanner(downloader.openUrl(url), StandardCharsets.UTF_8.toString());
     }
 
     private String findPackageName(Element element) {
-        if (element.getEnclosingElement() != null) {
-            return findPackageNameForClass(element);
-        }
         return findPackageNameForPackage(element);
     }
 
@@ -148,18 +141,24 @@ public class NamesGeneratorProcessor extends AbstractProcessor {
         return element.toString();
     }
 
-    private String findPackageNameForClass(Element element) {
-        if (element.getEnclosingElement().getSimpleName().toString().isEmpty()) {
-            return findPackageNameForClassInDefaultPackage();
-        }
-        return element.getEnclosingElement().toString();
-    }
-
-    private String findPackageNameForClassInDefaultPackage() {
-        return "";
-    }
-
     private void error(IOException e) {
         processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "failed to write extension file: " + e.getMessage());
+    }
+
+    /**
+     * Google compile testing seems to be able to use only the processor itself.
+     * Any derived test class or mockito spy causes the Processor to not be triggered during compilation.
+     * 
+     * So inject this "hook" into the processor for testing :-/
+     */
+    interface Downloader {
+        InputStream openUrl(String url) throws IOException;
+    }
+
+    private static class DefaultDownloader implements Downloader {
+        @Override
+        public InputStream openUrl(String url) throws IOException {
+            return new URL(url).openStream();
+        }
     }
 }
