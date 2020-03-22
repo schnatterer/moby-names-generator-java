@@ -7,11 +7,15 @@
     <parent>
         <groupId>info.schnatterer.moby-names-generator</groupId>
         <artifactId>moby-names-generator-parent</artifactId>
-        <version>${nameGeneratorVersion}</version>
+        <version>19.03.6-r0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
     <artifactId>moby-names-generator</artifactId>
+
+    <properties>
+        <mobyVersion>${parsedVersion.majorVersion}.${formattedVersion.minorVersion}.${parsedVersion.incrementalVersion}</mobyVersion>
+    </properties>
 
     <build>
         <plugins>
@@ -30,6 +34,16 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <goals><goal>parse-version</goal></goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
