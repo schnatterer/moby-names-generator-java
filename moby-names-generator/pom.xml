@@ -44,7 +44,7 @@
         <dependency>
             <groupId>info.schnatterer.moby-names-generator</groupId>
             <artifactId>moby-names-generator-processor</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
 
