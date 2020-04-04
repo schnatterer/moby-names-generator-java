@@ -28,7 +28,7 @@ class MobyNamesGeneratorTest {
         Set<String> combos = new HashSet<>();
 
         for (int i = 0; i < 1000000; i++) {
-            String randomName = MobyNamesGenerator.getRandomName(0);
+            String randomName = MobyNamesGenerator.getRandomName();
             assertThat(randomName).contains("_");
             
             String[] split = randomName.split("_");

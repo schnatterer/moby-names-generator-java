@@ -31,4 +31,8 @@ public final class MobyNamesGenerator {
 
         return name;
     }
+
+    public static String getRandomName() {
+        return getRandomName(0);
+    }
 }

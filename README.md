@@ -9,9 +9,39 @@ Java Version of the famous [Moby (Docker) Names Generator](https://github.com/mo
 
 ```java
 import info.schnatterer.mobynamesgenerator.MobyNamesGenerator;
+
 class GenerateMobyName {
     public static void main(String[] args) {
-        System.out.println(MobyNamesGenerator.getRandomName(0));
+        System.out.println(MobyNamesGenerator.getRandomName());
     }
 }
 ```
+
+
+## Usage
+
+Add the [latest stable version of moby-names-generator](https://search.maven.org/search?q=a:moby-names-generator%20AND%20g:info.schnatterer.moby-names-generator) 
+to the dependency management tool of your choice.
+
+```XML
+<dependency>
+  <groupId>info.schnatterer.moby-names-generator</groupId>
+  <artifactId>moby-names-generator</artifactId>
+  <version>19.03.6-r0</version>
+</dependency>
+```
+
+[![Maven Central](https://img.shields.io/maven-central/v/info.schnatterer.moby-names-generator/moby-names-generator.svg)](https://search.maven.org/search?q=a:moby-names-generator%20AND%20g:info.schnatterer.moby-names-generator)
+
+You can also get snapshot versions from our [snapshot repository](https://oss.sonatype.org/content/repositories/snapshots/info/schnatterer/moby-names-generator/) 
+(for the most recent commit).
+To do so, add the following repo to your `pom.xml` or `settings.xml`:
+```xml
+<repository>
+    <id>snapshots-repo</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    <releases><enabled>false</enabled></releases>
+    <snapshots><enabled>true</enabled></snapshots>
+</repository>
+```
+
