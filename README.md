@@ -45,3 +45,8 @@ To do so, add the following repo to your `pom.xml` or `settings.xml`:
 </repository>
 ```
 
+## Releasing
+
+`./mvnw release:prepare`
+
+Sets versions in pom.xml, commits, tags and pushes to SCM. Travis builds tag and pushes to Maven Central. 
