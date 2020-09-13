@@ -4,7 +4,7 @@
 
     <groupId>info.schnatterer.moby-names-generator</groupId>
     <artifactId>moby-names-generator-parent</artifactId>
-    <version> 19.03.8-r0</version>
+    <version>19.03.12</version>
     <packaging>pom</packaging>
 
     <name>moby-names-generator-parent</name>
@@ -37,7 +37,7 @@
         <connection>scm:git:https://github.com/schnatterer/moby-names-generator-java</connection>
         <developerConnection>scm:git:https://github.com/schnatterer/moby-names-generator-java</developerConnection>
         <url>https://github.com/schnatterer/moby-names-generator-java.git</url>
-        <tag> 19.03.8-r0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
