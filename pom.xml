@@ -4,7 +4,7 @@
 
     <groupId>info.schnatterer.moby-names-generator</groupId>
     <artifactId>moby-names-generator-parent</artifactId>
-    <version>19.03.12</version>
+    <version>19.03.12-r1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>moby-names-generator-parent</name>
