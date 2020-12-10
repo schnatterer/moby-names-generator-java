@@ -1,4 +1,4 @@
-package info.schnatterer.mobynamesgenerator;
+package info.schnatterer.mobynamesgenerator.processor;
 
 public class NameGeneratorModel {
     private final String packageName;

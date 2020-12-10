@@ -1,4 +1,4 @@
-package info.schnatterer.mobynamesgenerator;
+package info.schnatterer.mobynamesgenerator.processor;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
@@ -25,13 +25,13 @@ import java.util.regex.Pattern;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 // compilerArgs: "-AmobyVersion=v19.03.6" -> Docker Tag of https://github.com/moby/moby/blob/v19.03.6/pkg/namesgenerator/names-generator.go
 @SupportedOptions({"mobyVersion"})
-@SupportedAnnotationTypes("info.schnatterer.mobynamesgenerator.NamesGenerator")
+@SupportedAnnotationTypes("info.schnatterer.mobynamesgenerator.processor.NamesGenerator")
 @MetaInfServices(Processor.class)
 public class NamesGeneratorProcessor extends AbstractProcessor {
 
     private static final boolean CLAIM_ANNOTATIONS = true;
 
-    static final String JAVA_CLASS_TEMPLATE = "info/schnatterer/mobynamesgenerator/NamesGenerator-template.java";
+    static final String JAVA_CLASS_TEMPLATE = "info/schnatterer/mobynamesgenerator/processor/NamesGenerator-template.java";
     static final String GO_SRC_FILE_URL_TEMPLATE = "https://raw.githubusercontent.com/moby/moby/%s/pkg/namesgenerator/names-generator.go";
     private final Downloader downloader;
 

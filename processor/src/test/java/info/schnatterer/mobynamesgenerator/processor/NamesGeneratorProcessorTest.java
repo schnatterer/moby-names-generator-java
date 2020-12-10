@@ -1,4 +1,4 @@
-package info.schnatterer.mobynamesgenerator;
+package info.schnatterer.mobynamesgenerator.processor;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
@@ -58,7 +58,7 @@ public class NamesGeneratorProcessorTest {
         Joiner.on(System.lineSeparator()).join(
             "@NamesGenerator",
             "package " + EXPECTED_PACKAGE_NAME  + ";",
-            "import info.schnatterer.mobynamesgenerator.NamesGenerator;"
+            "import info.schnatterer.mobynamesgenerator.processor.NamesGenerator;"
         )
     );
 

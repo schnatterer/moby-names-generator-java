@@ -1,4 +1,4 @@
-package info.schnatterer.mobynamesgenerator;
+package info.schnatterer.mobynamesgenerator.processor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
