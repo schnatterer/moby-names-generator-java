@@ -43,8 +43,9 @@
         <dependency>
             <groupId>com.google.testing.compile</groupId>
             <artifactId>compile-testing</artifactId>
-            <version>0.10</version>
+            <version>0.19</version>
             <scope>test</scope>
+
         </dependency>
         <!-- Truth seems not to support JUnit 5 as of 03/2020 :-(
              https://github.com/google/truth/issues/333  -->
