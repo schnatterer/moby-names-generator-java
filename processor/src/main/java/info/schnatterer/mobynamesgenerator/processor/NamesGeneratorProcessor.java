@@ -3,7 +3,6 @@ package info.schnatterer.mobynamesgenerator.processor;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
-import org.kohsuke.MetaInfServices;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -26,7 +25,6 @@ import java.util.regex.Pattern;
 // compilerArgs: "-AmobyVersion=v19.03.6" -> Docker Tag of https://github.com/moby/moby/blob/v19.03.6/pkg/namesgenerator/names-generator.go
 @SupportedOptions({"mobyVersion"})
 @SupportedAnnotationTypes("info.schnatterer.mobynamesgenerator.processor.NamesGenerator")
-@MetaInfServices(Processor.class)
 public class NamesGeneratorProcessor extends AbstractProcessor {
 
     private static final boolean CLAIM_ANNOTATIONS = true;
