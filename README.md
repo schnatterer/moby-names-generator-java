@@ -53,6 +53,8 @@ The second part `r0` is zero-based and can be increase when the moby version doe
 When updating the moby version, use a snapshot first, to see if the builds still succeeds.
 
 * Set the version using: `mvn versions:set`
-* When the builds succeed, release via `./mvnw release:prepare -Darguments=pgp.skip=true`
-
-Sets versions in pom.xml, commits, tags and pushes to SCM. Travis builds tag and pushes to Maven Central. 
+* When the builds succeed, release either via 
+  * `./mvnw release:prepare -Darguments=pgp.skip=true`
+    Sets versions in pom.xml, commits, tags and pushes to SCM. Travis builds tag and pushes to Maven Central.
+  * Or manually using `mvn versions:set` to set version without `SNAPSHOT`, then increase `r` and add `SNAPSHOT` again.
+    Don't forget to tag. Either locally or via GitHub (signed tag!) 
