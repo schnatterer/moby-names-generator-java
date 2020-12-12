@@ -27,7 +27,7 @@ to the dependency management tool of your choice.
 <dependency>
   <groupId>info.schnatterer.moby-names-generator</groupId>
   <artifactId>moby-names-generator</artifactId>
-  <version>19.03.6-r0</version>
+  <version>20.10.0-r0</version>
 </dependency>
 ```
 
