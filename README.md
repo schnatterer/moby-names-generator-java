@@ -47,6 +47,12 @@ To do so, add the following repo to your `pom.xml` or `settings.xml`:
 
 ## Releasing
 
-`./mvnw release:prepare`
+The version name looks like so, for example: `20.10.0-r0-SNAPSHOT`
+The first part (before `-r0`)  corresponds to the [moby version](https://github.com/moby/moby/releases).
+The second part `r0` is zero-based and can be increase when the moby version does not change.
+When updating the moby version, use a snapshot first, to see if the builds still succeeds.
+
+* Set the version using: `mvn versions:set`
+* When the builds succeed, release via `./mvnw release:prepare -Darguments=pgp.skip=true`
 
 Sets versions in pom.xml, commits, tags and pushes to SCM. Travis builds tag and pushes to Maven Central. 

@@ -5,7 +5,7 @@
     <parent>
         <groupId>info.schnatterer.moby-names-generator</groupId>
         <artifactId>moby-names-generator-parent</artifactId>
-        <version>19.03.12-r1-SNAPSHOT</version>
+        <version>20.10.0-r0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
