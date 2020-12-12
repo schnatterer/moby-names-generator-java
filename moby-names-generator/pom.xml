@@ -21,6 +21,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
+                    <annotationProcessorPaths>
+                        <dependency>
+                            <groupId>info.schnatterer.moby-names-generator</groupId>
+                            <artifactId>moby-names-generator-processor</artifactId>
+                            <version>${project.version}</version>
+                        </dependency>
+                    </annotationProcessorPaths>
                     <compilerArgs>
                         <arg>-AmobyVersion=v${mobyVersion}</arg>
                     </compilerArgs>
@@ -34,6 +41,13 @@
                         <goals><goal>parse-version</goal></goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                 <configuration>
+                     <!-- Allow reflection for testing -->
+                    <argLine>--add-opens=info.schnatterer.mobynamesgenerator/info.schnatterer.mobynamesgenerator=ALL-UNNAMED</argLine>
+                 </configuration>
             </plugin>
         </plugins>
     </build>

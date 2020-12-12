@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
+@SupportedSourceVersion(SourceVersion.RELEASE_9)
 // compilerArgs: "-AmobyVersion=v19.03.6" -> Docker Tag of https://github.com/moby/moby/blob/v19.03.6/pkg/namesgenerator/names-generator.go
 @SupportedOptions({"mobyVersion"})
 @SupportedAnnotationTypes("info.schnatterer.mobynamesgenerator.processor.NamesGenerator")
@@ -29,7 +29,7 @@ public class NamesGeneratorProcessor extends AbstractProcessor {
 
     private static final boolean CLAIM_ANNOTATIONS = true;
 
-    static final String JAVA_CLASS_TEMPLATE = "info/schnatterer/mobynamesgenerator/processor/NamesGenerator-template.java";
+    static final String JAVA_CLASS_TEMPLATE = "NamesGenerator-template.java";
     static final String GO_SRC_FILE_URL_TEMPLATE = "https://raw.githubusercontent.com/moby/moby/%s/pkg/namesgenerator/names-generator.go";
     private final Downloader downloader;
 
@@ -97,7 +97,9 @@ public class NamesGeneratorProcessor extends AbstractProcessor {
 
         NameGeneratorModel model = new NameGeneratorModel(packageName, left, right);
 
-        JavaFileObject jfo = filer.createSourceFile("MobyNamesGenerator");
+        // Without packageName here, generation with modules fails with error:
+        // "attempt to create a type in unnamed package of a named module: MobyNamesGenerator"
+        JavaFileObject jfo = filer.createSourceFile(packageName + ".MobyNamesGenerator");
         Mustache mustache = mustacheFactory.compile(JAVA_CLASS_TEMPLATE);
 
         try (Writer writer = jfo.openWriter()) {

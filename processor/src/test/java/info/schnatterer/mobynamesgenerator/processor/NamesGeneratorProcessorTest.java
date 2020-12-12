@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import javax.tools.JavaFileObject;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
@@ -116,6 +117,7 @@ public class NamesGeneratorProcessorTest {
             .about(JavaSourcesSubjectFactory.javaSources())
             .that(Arrays.asList(sources));
 
+        src = src.withClasspath(Arrays.asList(new File("target/classes")));
         if (compilerArgString != null && !compilerArgString.isEmpty()) {
             src = src.withCompilerOptions(compilerArgString);
         }
