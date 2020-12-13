@@ -177,6 +177,6 @@
     <modules>
         <module>processor</module>
         <module>moby-names-generator</module>
-        <module>example</module>
+        <module>example-java9</module>
     </modules>
 </project>

@@ -10,30 +10,10 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <artifactId>example</artifactId>
+   <artifactId>example-java9</artifactId>
 
    <build>
       <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>2.6</version>
-            <configuration>
-               <!-- Use the same name for the jar, folder has version information (assembly) -->
-               <finalName>${project.artifactId}</finalName>
-               <!-- Configure archiver -->
-               <archive>
-                  <!-- Set up manifest -->
-                  <manifest>
-                     <addClasspath>true</addClasspath>
-                     <!-- Within assembly, all dependencies are within lib dir -->
-                     <classpathPrefix>lib/</classpathPrefix>
-                     <mainClass>info.schnatterer.modules.GenerateRandomName</mainClass>
-                  </manifest>
-               </archive>
-            </configuration>
-         </plugin>
-
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
@@ -72,13 +52,13 @@
       <dependency>
          <groupId>info.schnatterer.moby-names-generator</groupId>
          <artifactId>moby-names-generator</artifactId>
-         <version>20.10.0-r0</version>
+         <version>${project.version}</version>
       </dependency>
       <!-- TODO how to get rid of this??-->
       <dependency>
          <groupId>info.schnatterer.moby-names-generator</groupId>
          <artifactId>moby-names-generator-processor</artifactId>
-         <version>20.10.0-r0</version>
+         <version>${project.version}</version>
       </dependency>
    </dependencies>
 </project>
