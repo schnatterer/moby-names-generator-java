@@ -54,11 +54,5 @@
          <artifactId>moby-names-generator</artifactId>
          <version>${project.version}</version>
       </dependency>
-      <!-- TODO how to get rid of this??-->
-      <dependency>
-         <groupId>info.schnatterer.moby-names-generator</groupId>
-         <artifactId>moby-names-generator-processor</artifactId>
-         <version>${project.version}</version>
-      </dependency>
    </dependencies>
 </project>
