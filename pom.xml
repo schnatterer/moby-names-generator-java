@@ -177,5 +177,6 @@
     <modules>
         <module>processor</module>
         <module>moby-names-generator</module>
+        <module>example</module>
     </modules>
 </project>

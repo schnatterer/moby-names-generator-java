@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <packaging>jar</packaging>
+
+   <parent>
+      <groupId>info.schnatterer.moby-names-generator</groupId>
+      <artifactId>moby-names-generator-parent</artifactId>
+      <version>20.10.0-r1-SNAPSHOT</version>
+      <relativePath>../pom.xml</relativePath>
+   </parent>
+
+   <artifactId>example</artifactId>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.6</version>
+            <configuration>
+               <!-- Use the same name for the jar, folder has version information (assembly) -->
+               <finalName>${project.artifactId}</finalName>
+               <!-- Configure archiver -->
+               <archive>
+                  <!-- Set up manifest -->
+                  <manifest>
+                     <addClasspath>true</addClasspath>
+                     <!-- Within assembly, all dependencies are within lib dir -->
+                     <classpathPrefix>lib/</classpathPrefix>
+                     <mainClass>info.schnatterer.modules.GenerateRandomName</mainClass>
+                  </manifest>
+               </archive>
+            </configuration>
+         </plugin>
+
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>3.1.1</version>
+
+            <configuration>
+               <descriptorRefs>
+                  <descriptorRef>jar-with-dependencies</descriptorRef>
+               </descriptorRefs>
+               <archive>
+                  <!-- Set up manifest -->
+                  <manifest>
+                     <addClasspath>true</addClasspath>
+                     <!-- Within assembly, all dependencies are within lib dir -->
+                     <classpathPrefix>lib/</classpathPrefix>
+                     <mainClass>info.schnatterer.modules.GenerateRandomName</mainClass>
+                  </manifest>
+               </archive>
+            </configuration>
+
+            <executions>
+               <execution>
+                  <id>make-assembly</id>
+                  <phase>package</phase>
+                  <goals>
+                     <goal>single</goal>
+                  </goals>
+               </execution>
+            </executions>
+
+         </plugin>
+      </plugins>
+   </build>
+
+   <dependencies>
+      <dependency>
+         <groupId>info.schnatterer.moby-names-generator</groupId>
+         <artifactId>moby-names-generator</artifactId>
+         <version>20.10.0-r0</version>
+      </dependency>
+      <!-- TODO how to get rid of this??-->
+      <dependency>
+         <groupId>info.schnatterer.moby-names-generator</groupId>
+         <artifactId>moby-names-generator-processor</artifactId>
+         <version>20.10.0-r0</version>
+      </dependency>
+   </dependencies>
+</project>
