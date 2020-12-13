@@ -20,7 +20,6 @@
                <source>1.8</source>
                <target>1.8</target>
                <release>8</release>
-               <multiReleaseOutput>false</multiReleaseOutput>
                <encoding>UTF-8</encoding>
             </configuration>
          </plugin>
@@ -39,7 +38,7 @@
                      <addClasspath>true</addClasspath>
                      <!-- Within assembly, all dependencies are within lib dir -->
                      <classpathPrefix>lib/</classpathPrefix>
-                     <mainClass>info.schnatterer.modules.GenerateRandomName8</mainClass>
+                     <mainClass>info.schnatterer.modules8.GenerateRandomName8</mainClass>
                   </manifest>
                </archive>
             </configuration>
@@ -54,6 +53,16 @@
                </execution>
             </executions>
 
+         </plugin>
+         <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+               <source>8</source>
+               <detectJavaApiLink>false</detectJavaApiLink>
+               <!-- None of the above is working, so just skip those example javadocs :-/ -->
+               <!-- Ignore error: The code being documented uses packages in the unnamed module, but the packages defined in https://github.com/schnatterer/moby-names-generator-java/moby-names-generator/apidocs/ are in named modules. -->
+               <failOnError>false</failOnError>
+            </configuration>
          </plugin>
       </plugins>
    </build>

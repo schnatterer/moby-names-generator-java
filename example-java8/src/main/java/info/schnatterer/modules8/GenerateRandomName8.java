@@ -1,4 +1,4 @@
-package info.schnatterer.modules;
+package info.schnatterer.modules8;
 
 import info.schnatterer.mobynamesgenerator.MobyNamesGenerator;
 
