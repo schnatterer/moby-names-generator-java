@@ -1,0 +1,11 @@
+# Ignore all
+*
+# Whitelist
+!example-java8
+!example-java9
+!processor
+!moby-names-generator
+**/target
+!pom.xml
+!mvnw
+!.mvn
