@@ -22,10 +22,21 @@ COPY processor /app/processor
 WORKDIR /app
 RUN ./mvnw package -pl '!example-java8'
 
+# upx used to compress native-image but "yum install xz" freezes in this stage. So download and extract here. 
+RUN wget -O /tmp/upx.tar.xz https://github.com/upx/upx/releases/download/v3.96/upx-3.96-amd64_linux.tar.xz
+RUN cd /tmp && tar -xvf /tmp/upx.tar.xz
+RUN mv /tmp/upx-*-amd64_linux/upx /usr/local/bin
+
 FROM oracle/graalvm-ce:20.3.0-java11 AS native-image
 RUN gu install native-image
+COPY --from=maven-build /usr/local/bin/upx /usr/local/bin/
+
 COPY --from=maven-build /app/example-java9/target/example-java9-*-jar-with-dependencies.jar /src/app.jar
 RUN native-image -H:+ReportExceptionStackTraces --static -jar /src/app.jar
+
+# Compress image even further
+RUN upx --lzma --best -k /app
+
 
 FROM scratch
 COPY --from=native-image /app /app
