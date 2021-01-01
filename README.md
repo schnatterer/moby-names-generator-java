@@ -17,6 +17,8 @@ class GenerateMobyName {
 }
 ```
 
+Also available as [CLI](#democli).
+![Screencast showcasing Docker Image](https://raw.githubusercontent.com/wiki/schnatterer/moby-names-generator-java/screencast.gif)
 
 ## Usage
 
@@ -43,6 +45,20 @@ To do so, add the following repo to your `pom.xml` or `settings.xml`:
     <releases><enabled>false</enabled></releases>
     <snapshots><enabled>true</enabled></snapshots>
 </repository>
+```
+
+## Demo/CLI
+
+There are examples for [Java 8](example-java8) and [Java9+](example-java9) (using Jigsaw/JPMS). Both implement simple 
+command line interfaces that return a random name.
+
+The Java 9+ example is also available as compact Docker image, [built using GraalVM](Dockerfile).
+
+[![moby-names-generator on DockerHub](https://img.shields.io/docker/image-size/schnatterer/moby-names-generator)](https://hub.docker.com/r/schnatterer/moby-names-generator)
+
+```shell
+$ docker run --rm schnatterer/moby-names-generator
+nifty_noether
 ```
 
 ## Releasing
